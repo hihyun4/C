@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
 	int su1, count;
 	int answer = 50;
 	
-	count = 0;
+	count = 1;
 	do
 	{
 		printf("Guess a number:");
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
 			count++;
 		}
 			
-	}while((su1<answer) || (su1>answer));
+	}while(su1 != answer);
 	
 	printf("congratulation! Trials: %i", count);
 	
