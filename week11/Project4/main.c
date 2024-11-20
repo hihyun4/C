@@ -6,6 +6,6 @@ void main(void)
 {
 	char str[30] = "happy C programming";
 	
-	printf("¹®ÀÚ¿­ \"%s\"ÀÇ ±æÀÌ: %i", str, strlen(str));
+	printf("ë¬¸ìì—´ \"%s\"ì˜ ê¸¸ì´: %i", str, strlen(str));
 	
 }
