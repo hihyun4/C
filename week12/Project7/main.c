@@ -3,18 +3,18 @@
 
 char *proverb = "All that glisters is not gold.";
 
-void setPointer(char *q)
+void setPointer(char **q)
 {
-	q = proverb;
+	*q = proverb;
 }
 
 int main(void)
 {
 	char *p = "zzz";
-	setPointer(p);
+	setPointer(&p);
 	printf("%s\n", p);
 	
 	return 0;
 }
 
-//이중포인터 활용해서 고쳐야함. 
+//이중포인터 활용해서 고쳐야함.
