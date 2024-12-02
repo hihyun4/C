@@ -2,6 +2,7 @@
 //  main.c
 //  sharkGame
 //
+//�ٲ? 
 
 #include <stdio.h>
 // ----- EX. 1 : Preparation------------
