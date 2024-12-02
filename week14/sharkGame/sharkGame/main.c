@@ -131,6 +131,7 @@ int getWinner(void)
 // ----- EX. 6 : game end ------------
 
 
+
 int main(int argc, const char * argv[]) {
     
     int i;
