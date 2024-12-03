@@ -11,7 +11,7 @@
 #include "board.h"
 
 // ----- EX. 4 : player ------------
-#define N_PLAYER            3
+#define N_PLAYER            3 //플레이어 수 3명 
 // ----- EX. 4 : player ------------
 
 #define MAX_CHARNAME        200
@@ -24,11 +24,11 @@
 #define PLAYERSTATUS_DIE    1
 #define PLAYERSTATUS_END    2
 
-int player_position[N_PLAYER];
-char player_name[N_PLAYER][MAX_CHARNAME];
-int player_coin[N_PLAYER];
-int player_status[N_PLAYER]; //0 - live, 1 - die, 2 - end
-char player_statusString[3][MAX_CHARNAME] = {"LIVE", "DIE", "END"};
+int player_position[N_PLAYER]; //위치 
+char player_name[N_PLAYER][MAX_CHARNAME]; //이름 
+int player_coin[N_PLAYER]; //누적 동전 수 
+int player_status[N_PLAYER]; //0 - live, 1 - die, 2 - end //현재 상태 
+char player_statusString[3][MAX_CHARNAME] = {"LIVE", "DIE", "END"}; //상태 설명 문자열 
 // ----- EX. 4 : player ------------
 
 // ----- EX. 3 : board ------------
@@ -70,7 +70,7 @@ int game_end(void)
 // ----- EX. 6 : game end ------------
 
 // ----- EX. 4 : player ------------
-void printPlayerPosition(int player)
+void printPlayerPosition(int player) //플레이어 상태 출력 
 {
     int i;
     
@@ -104,6 +104,7 @@ void printPlayerStatus(void)
 // ----- EX. 4 : player ------------
 
 // ----- EX. 5 : shark ------------
+//사망상태 출력 
 void checkDie(void)
 {
     int i;
@@ -119,14 +120,36 @@ void checkDie(void)
 // ----- EX. 5 : shark ------------
 
 // ----- EX. 6 : game end ------------
-int getAlivePlayer(void)
+//생존 플레이어 수 계산 및 반환
+int getAlivePlayer(void) 
 {
-   
+   int i;
+   int cnt = 0;
+   for(i=0; i<N_PLAYER; i++)
+   {
+   	if(player_status[i] == PLAYERSTATUS_END)
+   		cnt++;
+	} 
+	
+	return cnt++;
 }
 
+//생존 플레이어 중 코인이 많은 플레이어 반환
 int getWinner(void)
 {
+    int i;
+    int winner = 0;
+    int max_coin = -1;
     
+    for(i=0; i<N_PLAYER; i++)
+    {
+    	if(player_coin[i] > max_coin)
+    	{
+    		max_coin = player_coin[i];
+    		winner = i;
+		}
+	}
+	return winner;
 }
 // ----- EX. 6 : game end ------------
 
@@ -191,6 +214,8 @@ int main(int argc, const char * argv[]) {
         
         
         //step 2-3. moving
+        //player_position값에 주사위 결과를 더함. 20이상 갔을 때 예외, 이동결과도 
+   
    
         //step 2-4. coin
     
@@ -199,6 +224,7 @@ int main(int argc, const char * argv[]) {
     
 // ----- EX. 6 : game end ------------
     } while(game_end() == 0);
+    
     
     //step 3. game end process
     printf("GAME END!!\n");
@@ -209,3 +235,5 @@ int main(int argc, const char * argv[]) {
 
     return 0;
 }
+
+
