@@ -230,16 +230,17 @@ int main(int argc, const char * argv[]) {
         //step 2-4. coin
         //coinResult
         //이동한 위치에서의 함수 호출, 코인 값 
-		coinResult = board_getBoardStatus(player_position[turn]);  
+		//coinResult = board_getBoardStatus(player_position[turn]); 
+		coinResult = board_getBoardCoin(player_position[turn]); 
 		//반환된 코인 값 더하기 
 		player_coin[turn] += coinResult;
 		//코인이 존재하는 경우 습득 정보 출력 
 		
 		if(coinResult > 0)
 		{
-			printf("-> Lucky! %s got %d coins", player_name[turn], coinResult);
+			printf("-> Lucky! %s got %d coins\n", player_name[turn], coinResult);
 			
-		 } 
+		} 
     
         
         //step 2-5. end process
@@ -248,11 +249,13 @@ int main(int argc, const char * argv[]) {
         if (turn == 0)
         {
         	int shark_pos = board_stepShark();
-        	printf("Shark moved to %i\n");
+        	printf("Shark moved to %i\n", shark_pos);
         	
         	checkDie();
 		}
 		
+		printf("\n");
+		printf("\n");
     
 // ----- EX. 6 : game end ------------
     } while(game_end() == 0);
@@ -268,6 +271,5 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-//코인을 안 먹음, 상어 움직이는 것도 해야함. 그리고 플레이어 pos가 20을 넘었을 떄도 해야함. 
-
+//승리 조건 수정해야함. 
 

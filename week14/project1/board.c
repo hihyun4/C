@@ -43,7 +43,8 @@ int board_initBoard(void) //보드 초기화 **완성
 {
     int i;
     int randPos; //내가 만든 거, 랜덤으로 지정한 동전 놓을 칸 변수
-//    int randcoins; //내가 만든 거, 랜덤으로 지정한 코인 놓을 개수(최대 4개) 
+    int randcoins; //내가 만든 거, 랜덤 코인 
+    int sumcoins; //내가 만든 거, 랜덤 코인의 합. 
     
     //variable initialization, 변수 초기화 
     for (i=0;i<N_BOARD;i++)
@@ -57,27 +58,44 @@ int board_initBoard(void) //보드 초기화 **완성
 // ----- EX. 5 : shark ------------
 
     //coin allocation //여기에 코인 할당해서 랜덤 배치해야함 p.17
-	for(i=0; i<N_BOARD; i++) //i번째 코인이 할당되지 않았으면 반복 0~11
-	{
-
-		while(board_coin[i] != 0) //칸에 코인이 없으면 
-		{
-			
-			randPos = rand() % N_BOARD; //이러면 0~19?
+    sumcoins = 0;
+    while (sumcoins <= N_COINPOS) //코인의 합이 12보다 작을  때까지만 반복 
+    {
+    	randPos = rand() % N_BOARD; //0~19R까지 랜덤 보드 위치 
+    	
+    	if(board_coin[randPos] == 0) //칸이 비어있으면 
+    	{
+    		randcoins = rand() % MAX_COIN + 1;
 			 
-			if(board_coin[randPos] == 0) //randPos에 코인이 없으면 
-			{
-				//i번째 코인 할당
-				board_coin[randPos] = rand() %  MAX_COIN +1;
-			}
+			
+			board_coin[randPos] = randcoins; //코인 배열에 넣기 
+			sumcoins += randcoins; //코인 합 구하기 
 			
 		}
-		//모르겠음!!! 
+    	
 	}
-
-	//coin allocation 다시 
-	
-	//동전을 놓을 칸을 랜덤으로 지정
+    
+    
+//	for(i=0; i<N_BOARD; i++) //i번째 코인이 할당되지 않았으면 반복 0~11
+//	{
+//
+//		while(board_coin[i] != 0) //칸에 코인이 없으면 
+//		{
+//			
+//			randPos = rand() % N_BOARD; //이러면 0~19?
+//			 
+//			if(board_coin[randPos] == 0) //randPos에 코인이 없으면 
+//			{
+//				//i번째 코인 할당
+//				board_coin[randPos] = rand() %  MAX_COIN +1;
+//			}
+//			
+//		}
+//		
+//	} //이렇게 하면 코인이 제대로 할당 안됨. 최대 12개도 안됨. 
+//	//coin allocation 다시 
+//	
+//	//동전을 놓을 칸을 랜덤으로 지정
 //	randPos = rand() % N_BOARD; //이러면 0~19
 //	randcoins = rand() % MAX_COIN; //최대 0~3
 //	int sum;
@@ -124,12 +142,13 @@ int board_stepShark(void) //상어 전진 명령 **완성?
 			break;
 		}
 		
+		
 		//2. 이동경로에서 board_status 배열 요소 변경
 		board_status[shark_position] = BOARDSTATUS_NOK;
 	}
 	
 	 
-	//return shark_position; 
+	return shark_position;
 }
 // ----- EX. 5 : shark ------------
 
