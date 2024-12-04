@@ -209,6 +209,7 @@ int main(int argc, const char * argv[]) {
         printf("Press any key to roll a die!\n");
         scanf("%d", &dum);
         fflush(stdin);
+        
 // ----- EX. 4 : player ------------
         dieResult = rolldie();
         
@@ -218,9 +219,13 @@ int main(int argc, const char * argv[]) {
         player_position[turn] = player_position[turn] + dieResult;
         printf("%Die result: %d, %s moved to %d\n",dieResult, player_name[turn], player_position[turn]);
         
-        
-        //상어도 해야함. Shark moved to %d  
-   
+        //여기에 pos 20넘었을 때 제한?
+        if(player_position[turn] >= N_BOARD) //20을 초과해버리면 멈추기 
+		{
+			player_position[turn] = N_BOARD - 1; //20을 넘으면 그냥 20? 19?
+			player_status[turn] = PLAYERSTATUS_END; 
+		}
+
    
         //step 2-4. coin
         //coinResult
@@ -229,14 +234,25 @@ int main(int argc, const char * argv[]) {
 		//반환된 코인 값 더하기 
 		player_coin[turn] += coinResult;
 		//코인이 존재하는 경우 습득 정보 출력 
+		
 		if(coinResult > 0)
 		{
-			printf("%s get %d coins", player_name[turn], coinResult);
+			printf("-> Lucky! %s got %d coins", player_name[turn], coinResult);
+			
 		 } 
     
         
         //step 2-5. end process
         turn = (turn + 1) % N_PLAYER;
+        
+        if (turn == 0)
+        {
+        	int shark_pos = board_stepShark();
+        	printf("Shark moved to %i\n");
+        	
+        	checkDie();
+		}
+		
     
 // ----- EX. 6 : game end ------------
     } while(game_end() == 0);
@@ -253,4 +269,5 @@ int main(int argc, const char * argv[]) {
 }
 
 //코인을 안 먹음, 상어 움직이는 것도 해야함. 그리고 플레이어 pos가 20을 넘었을 떄도 해야함. 
+
 

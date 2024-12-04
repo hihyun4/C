@@ -42,7 +42,8 @@ void board_printBoardStatus(void) //특정 칸의 파손 여부 출력
 int board_initBoard(void) //보드 초기화 **완성 
 {
     int i;
-    int randPos; //내가 만든 거, 랜덤으로 지정한 동전 놓을 칸 변수 
+    int randPos; //내가 만든 거, 랜덤으로 지정한 동전 놓을 칸 변수
+//    int randcoins; //내가 만든 거, 랜덤으로 지정한 코인 놓을 개수(최대 4개) 
     
     //variable initialization, 변수 초기화 
     for (i=0;i<N_BOARD;i++)
@@ -56,23 +57,42 @@ int board_initBoard(void) //보드 초기화 **완성
 // ----- EX. 5 : shark ------------
 
     //coin allocation //여기에 코인 할당해서 랜덤 배치해야함 p.17
-	for(i=0; i<N_COINPOS; i++) //i번째 코인이 할당되지 않았으면 반복 
+	for(i=0; i<N_BOARD; i++) //i번째 코인이 할당되지 않았으면 반복 0~11
 	{
-		while(board_coin[i] != 0) //0~11.. 12번 반복
+
+		while(board_coin[i] != 0) //칸에 코인이 없으면 
 		{
-			//동전을 놓을 칸을 랜덤으로 지정;
+			
 			randPos = rand() % N_BOARD; //이러면 0~19?
 			 
 			if(board_coin[randPos] == 0) //randPos에 코인이 없으면 
 			{
-				//i번째 코인 할당? 
+				//i번째 코인 할당
 				board_coin[randPos] = rand() %  MAX_COIN +1;
 			}
 			
 		}
-			 
-	 } 
-    
+		//모르겠음!!! 
+	}
+
+	//coin allocation 다시 
+	
+	//동전을 놓을 칸을 랜덤으로 지정
+//	randPos = rand() % N_BOARD; //이러면 0~19
+//	randcoins = rand() % MAX_COIN; //최대 0~3
+//	int sum;
+//	sum = 0;
+//	while(sum < N_COINPOS) //코인의 합이 12보다 작을 때 
+//	{
+//		if(board_coin[randPos] == 0) //randPos에 코인이 없으면 
+//		{
+//			//i번째 코인 할당
+//			board_coin[randPos] = randcoins +1; //1~4 들어감
+//			sum += randcoins;
+//		}
+//		
+//	}
+
     
     return N_COINPOS; //얘는 왜 하는거지? 
 }
@@ -100,7 +120,7 @@ int board_stepShark(void) //상어 전진 명령 **완성?
 		
 		if(shark_position >= N_BOARD) //20을 초과해버리면 멈추기 
 		{
-			shark_position = 19; //20을 넘으면 그냥 20? 19?
+			shark_position = N_BOARD - 1; //20을 넘으면 그냥 19
 			break;
 		}
 		
