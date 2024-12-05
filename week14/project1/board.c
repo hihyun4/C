@@ -128,6 +128,8 @@ int board_stepShark(void) //상어 전진 명령 **완성?
 	
 	int i;
 	int randstepShark; //내가 만든 거, 1~6까지 랜덤 숫자
+	
+	
 	//1. 1~MAX_SHARKSTEP칸을 랜덤으로 이동
 	randstepShark = rand() % MAX_SHARKSTEP + 1; 
 	
@@ -146,6 +148,7 @@ int board_stepShark(void) //상어 전진 명령 **완성?
 		//2. 이동경로에서 board_status 배열 요소 변경
 		board_status[shark_position] = BOARDSTATUS_NOK;
 	}
+	
 	
 	 
 	return shark_position;

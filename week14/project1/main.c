@@ -138,23 +138,35 @@ int getAlivePlayer(void)
 int getWinner(void)
 {
     int i;
-    int winner = 0;
+    int winner = 0;  
     int max_coin = -1;
     
     for(i=0; i<N_PLAYER; i++)
     {
-    	if(player_coin[i] > max_coin)
+    	
+            
+    	if(player_coin[i] > max_coin ) //원래 있던 거.  
     	{
     		max_coin = player_coin[i];
     		winner = i;
 		}
+		//들어온 애랑 코인이 같을 때
+		else if(player_coin[i] == max_coin && player_position[i] < player_position[winner]) 
+		{
+			winner = i; 
+		} 
+		
 	}
+	
+	//
+	
 	return winner;
 }
 // ----- EX. 6 : game end ------------
 
 
-int main(int argc, const char * argv[]) {
+int main(int argc, const char * argv[]) 
+{
     
     int i;
     int turn=0;
@@ -249,7 +261,12 @@ int main(int argc, const char * argv[]) {
         if (turn == 0)
         {
         	int shark_pos = board_stepShark();
-        	printf("Shark moved to %i\n", shark_pos);
+        	int totalsharkpos = 1; //내가 만든 거, 상어의 총 움직임 
+        	
+        	totalsharkpos += shark_pos;
+        	
+        	printf("Shark moved to %i\n", totalsharkpos);
+        	
         	
         	checkDie();
 		}
@@ -263,7 +280,13 @@ int main(int argc, const char * argv[]) {
     
     //step 3. game end process
     printf("GAME END!!\n");
-    printf("%i players are alive! winner is %s\n", getAlivePlayer(), player_name[getWinner()]);
+    
+
+		//printf("No winner! All players are dead.\n");
+
+	printf("%i players are alive! winner is %s\n", getAlivePlayer(), player_name[getWinner()]);
+    
+    
 // ----- EX. 6 : game end ------------
     
 // ----- EX. 2 : structuring ------------
@@ -271,5 +294,5 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-//승리 조건 수정해야함. 
+//모두 다 죽었을 때 코드 짜야함. 
 
