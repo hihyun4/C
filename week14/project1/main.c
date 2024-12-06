@@ -54,6 +54,7 @@ int game_end(void)
 {
     int i;
     int flag_end = 1;
+    int all_dead = 1; //얘는 다 죽었을 때 
     
     //if all the players are died?
     for (i=0;i<N_PLAYER;i++)
@@ -61,11 +62,24 @@ int game_end(void)
         if (player_status[i] == PLAYERSTATUS_LIVE)
         {
             flag_end = 0;
-            break;
+            //break;
         }
+        if(player_status[i] != PLAYERSTATUS_DIE) 
+        {
+        	all_dead = 0;
+        	
+		}
     }
     
+    //모든 플레이어가 죽은 경우 
+    if(all_dead == 1)
+	{
+		return -1; //-1이면 모두 죽었다는 거. 
+	} 
+    
+    //return flag_end;
     return flag_end;
+    
 }
 // ----- EX. 6 : game end ------------
 
@@ -110,7 +124,7 @@ void checkDie(void)
     int i;
     for (i=0;i<N_PLAYER;i++)
     {
-        if (board_getBoardStatus(player_position[i]) == BOARDSTATUS_NOK)
+        if (player_status[i] != PLAYERSTATUS_END && board_getBoardStatus(player_position[i]) == BOARDSTATUS_NOK)
         {
             printf("%s in pos %i has died!! (coin %i)\n", player_name[i], player_position[i], player_coin[i]);
             player_status[i] = PLAYERSTATUS_DIE;
@@ -138,27 +152,28 @@ int getAlivePlayer(void)
 int getWinner(void)
 {
     int i;
-    int winner = 0;  
+    int winner = -1;  
     int max_coin = -1;
     
     for(i=0; i<N_PLAYER; i++)
     {
-    	
             
-    	if(player_coin[i] > max_coin ) //원래 있던 거.  
-    	{
-    		max_coin = player_coin[i];
-    		winner = i;
-		}
-		//들어온 애랑 코인이 같을 때
-		else if(player_coin[i] == max_coin && player_position[i] < player_position[winner]) 
-		{
-			winner = i; 
-		} 
+        if (player_status[i] != PLAYERSTATUS_DIE) //먼저 살았는지 확인
+		{ 
+			if(player_coin[i] > max_coin ) //원래 있던 거.  
+    		{
+    			max_coin = player_coin[i];
+    			winner = i;
+			}
 		
+		//들어온 애랑 코인이 같을 때
+			else if(player_coin[i] == max_coin)// && 
+			{
+				if (winner == -1 || player_position[i] < player_position[winner] && i < winner) //위치 비교 
+					winner = i; 
+			}	 
+		}
 	}
-	
-	//
 	
 	return winner;
 }
@@ -281,10 +296,10 @@ int main(int argc, const char * argv[])
     //step 3. game end process
     printf("GAME END!!\n");
     
-
-		//printf("No winner! All players are dead.\n");
-
-	printf("%i players are alive! winner is %s\n", getAlivePlayer(), player_name[getWinner()]);
+    if(game_end() == -1)
+    	printf("No winner! All players are dead.\n");
+	else
+		printf("%i players are alive! winner is %s\n", getAlivePlayer(), player_name[getWinner()]);
     
     
 // ----- EX. 6 : game end ------------

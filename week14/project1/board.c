@@ -136,20 +136,16 @@ int board_stepShark(void) //상어 전진 명령 **완성?
 
 	for (i=0; i<randstepShark; i++) //랜덤 숫자만큼 상어가 이동 
 	{
-		shark_position++; //랜덤 숫자만큼 상어 한칸씩 이동 
+		 //랜덤 숫자만큼 상어 한칸씩 이동 
 		
-		if(shark_position >= N_BOARD) //20을 초과해버리면 멈추기 
+		if(shark_position < N_BOARD - 1) //20을 초과해버리면 멈추기 
 		{
-			shark_position = N_BOARD - 1; //20을 넘으면 그냥 19
-			break;
+			shark_position++;ㅁ 
+			//2. 이동경로에서 board_status 배열 요소 변경
+			board_status[shark_position] = BOARDSTATUS_NOK;
 		}
 		
-		
-		//2. 이동경로에서 board_status 배열 요소 변경
-		board_status[shark_position] = BOARDSTATUS_NOK;
 	}
-	
-	
 	 
 	return shark_position;
 }
